@@ -1,18 +1,24 @@
-node {
-  stage('========== Clone repository ==========') {
-    checkout scm
-  }
-  stage('========== Build image ==========') {
-    echo "Build image"
-  }
-  stage('========== docker login ==========') {
-	steps { 
-	  script {
-		sh "docker login 192.168.10.68 --username='user02' --password='Doota!123'"
-	  } 
-	}	
-  }  
-  stage('========== Push image ==========') {
-    echo "Build image"
-  }
+pipeline {
+    agent any
+
+    environment {
+        registry= '${HARBOR_IP}'
+        port='${HARBOR_PORT}'
+        imageName='jenkins/nginx'
+        imageTag='latest'
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh"""
+                docker login --username=${HARBOR_ID} --password=${HARBOR_PW} ${HARBOR_IP}
+                docker images
+                docker build --tag ${HARBOR_IP}/jenkins/nginx:latest .
+                docker images | grep nginx
+                docker push ${HARBOR_IP}/jenkins/nginx:latest
+                """
+            }
+
+        }
+    }
 }
