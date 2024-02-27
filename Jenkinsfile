@@ -8,7 +8,7 @@ node {
   stage('========== docker login ==========') {
 	steps { 
 	  script {
-		sh 'docker login 192.168.10.68'
+		sh "docker login 192.168.10.68 --username='user02' --password='Doota!123'"
 	  } 
 	}	
   }  
