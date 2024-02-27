@@ -6,7 +6,11 @@ node {
     echo "Build image"
   }
   stage('========== docker login ==========') {
-    echo "docker login"
+	steps { 
+	  script {
+		sh 'docker login 192.168.10.68'
+	  } 
+	}	
   }  
   stage('========== Push image ==========') {
     echo "Build image"
